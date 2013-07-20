@@ -25,17 +25,23 @@ gen_inhomo_poisson <- function(lambda, T_0) {
 }
 
 # === Verify the Inhomogeneous Poisson Random Process Generator ===
-T_0 <- 10   # experiment end time
+T_0 <- 20   # experiment end time
 T_seq.num <- 10   # total time steps for testing 
 # generate a sequence of time steps of length T_seq.num
 # [0, ..., t_i, ... , T_0] with 0 excluded
 T_seq <- seq(T_0/T_seq.num, T_0, length.out=T_seq.num)
 
 # define the rate function
-rate.fun <- function(t) exp(sin(t))
+rate.fun <- function(t) exp(sin(5* t))
 
+
+require(plyr)
 sample.N <- 1000
-sample.seq <- replicate(sample.N, gen_inhomo_poisson(lambda=rate.fun, T_0=T_0))
+# use bulit-in function
+# sample.seq <- replicate(sample.N, gen_inhomo_poisson(lambda=rate.fun, T_0=T_0))
+# use wrapper by plyr for progress report
+sample.seq <- rlply(sample.N, gen_inhomo_poisson(lambda=rate.fun, T_0=T_0), .progress='text')
+
 
 count_until_t <- function(sample_seq, t) {
   sapply(sample_seq, function(x) sum(x <= t))
@@ -45,7 +51,6 @@ count_along_t <- function(sample, t_seq){
   sapply(t_seq, function(t) sum(sample <= t))
 }
 
-require(plyr)
 df.count <- ldply(sample.seq, function(s) count_along_t(s, T_seq), .progress="text")
 colnames(df.count) <- paste("T=", T_seq, sep="")
 
@@ -69,7 +74,7 @@ plot_qq <- function(qt.N, i){
 }
 plot_qq(qt.N, i)
 
-# use ggplo2 for scatter plot
+# use ggplot2 for scatter plot
 require(ggplot2)
 plot_qq.ggplot <- function(qt.N, i) {
   g <- qplot(qpois(seq(0, 1, length.out=qt.N),  cum_rate.seq[[i]]), 
