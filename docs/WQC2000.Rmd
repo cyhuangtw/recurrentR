@@ -1,0 +1,94 @@
+Implementation of Paper WQC 2000
+================================
+
+The Simplest Model
+------------------
+No Time-Dependent Variable $\mathbb{X}_i$ nor Time-Independent Variable $\mathbb{W}_i$ involved.
+
+Assume the random variable has PDF $f_i(t)$ 
+\[
+f_i(t) = \frac{\lambda_i(t)}{\Lambda_i(T_0)} = \cdots = \frac{\lambda_0(t)}{\Lambda_0(T_0)}
+\]
+which is invariant of $i$. CDF is then $F(t) = \int^t_0f(u)du$. 
+
+This random variable's CDF can be estimated by $\hat{F(t)}$, 
+\[
+\hat{F}(t) = \prod_{s(l) > t}(1-\frac{d(l)}{N(l)})
+\]
+
+* $l = 0, 1, 2, \ldots$, an sequence of non-negative integers with no gaps
+* $s(l)$: ordered unique value of $t_{i,j}$, thus $s(0) < s(1) < s(2) < \ldots$
+* $d(l)$: # of events occurred at $s(l)$
+* $N(l)$: # of total events statisfying $t_{i,j} \leq s(l) \leq y_i$
+
+Furthermore, we can estimate $\hat\Lambda(T_0)$ based on this random variable. Their relationship can be stated as
+\[
+\hat\Lambda(T_0) = \frac1n\sum^n_{i=1}m_i\hat{F}^{-1}(Y_i)
+\]
+
+* $n$: # of total patients
+* $m_i$: # of recurrent time events before $Y_i$
+* $Y_i$: censoring time between $[0, T_0]$. and $Y_i = \min[Y_{i0}^*, Y_{i1}^*]$  
+    * $Y_{i0}^*$: noninformative censoring, e.g., end of study
+    * $Y_{i1}^*$: informative censoring, e.g., death, corelating with $N_i(\cdot)$
+
+Question for model
+------------------
+
+1. Does the events stated in the model also **contain censored time**? If not, how does the model build the relationship between (non)informative censorship and recurrent events? (I don't understand the introducing variable $z_0$ part of paper)
+2. The computation of $\hat{F(t)}$, I don't know if I interpret the formula correctly. The following shows an example and my hand-computation.
+
+
+Example
+-------
+
+Part of an example using first 3 subjects in **Counting Process (CP)** format:
+
+sub. $i$ | event $j$ | event/censor(1/0) | start | end | $\mathbb{X} = x_1, \ldots$
+-------- | --------- | ----------------- | ----- | --- | -------------------------- 
+1 | 1 | 1 | 0 | 2 | ... 
+1 | 2 | 1 | 2 | 5 | ... 
+1 | 3 | 0 | 5 | 8 | ... 
+2 | 1 | 1 | 0 | 3 | ...
+2 | 2 | 1 | 3 | 4 | ...
+2 | 3 | 1 | 4 | 7 | ...
+2 | 4 | 0 | 7 | 10 | ...
+3 | 1 | 1 | 0 | 5 | ...
+3 | 2 | 0 | 5 | 6 | ...
+
+Thus all failure(event) time are ${2, 5, 3, 4, 7, 5}$.
+And all censor time are ${8, 10, 6}$
+
+**Transform** the data based on the ordered event $s(l)$
+
+* $q(l)$: # of censored subjects with censored time $Y_i$ such that $s(l) < Y_i \leq s(l+1)$ 
+
+$l$ | $s(l)$ | $d(l)$ | $q(l)$ | $N(l)$ | # of sub. left in exp
+--- | ------ | ------ | ------ | ------ | ---------------------
+0 | 0 | 0 | 0 | 0 | 3
+1 | 2 | 1 | 0 | 1 | 3
+2 | 3 | 1 | 0 | 2 | 3  
+3 | 4 | 1 | 0 | 3 | 3 
+4 | 5 | 2 | 1 | 5 | 3 
+5 | 7 | 1 | 2 | 6 | 2
+Inf | Inf | - | - | - | 0
+
+Based on the estimator $\hat{F}(t)$ previously defined, the numerical value along time $t$ can be derived
+
+\[
+\begin{align*}
+\hat{F}(t=1) = \prod_{s(l) > t = 1}(\cdot) &= \prod_{l \in \{1, 2, \ldots, 5\}}(1-\frac{d(l)}{N(l)}) = (1 - \frac11)(1-\frac12)(1-\frac13)(1-\frac25)(1-\frac16) = 0\\
+\hat{F}(t=2) &= \prod_{l \in \{2, \ldots, 5\}}(1-\frac{d(l)}{N(l)}) = (1-\frac12)(1-\frac13)(1-\frac25)(1-\frac16)\\
+\hat{F}(t=3) &= \prod_{l \in \{3, 4, 5\}}(1-\frac{d(l)}{N(l)}) = (1-\frac13)(1-\frac25)(1-\frac16)\\
+\hat{F}(t=4) &= \prod_{l \in \{4, 5\}}(1-\frac{d(l)}{N(l)}) = (1-\frac25)(1-\frac16)\\
+\hat{F}(t=5) = \hat{F}(t=6) &= \prod_{l = 5}(1-\frac{d(l)}{N(l)}) = 1-\frac16\\
+\hat{F}(t=7) &= 1\\
+\end{align*}
+\]
+
+However I am not confident about my understanding of these formulas, please help me out.
+
+Demo R code (Not implemented **YET**)
+-----------
+
+*TODO*
