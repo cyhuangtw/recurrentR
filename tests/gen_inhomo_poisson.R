@@ -32,7 +32,7 @@ T_seq.num <- 10   # total time steps for testing
 T_seq <- seq(T_0/T_seq.num, T_0, length.out=T_seq.num)
 
 # define the rate function
-rate.fun <- function(t) exp(sin(5* t))
+rate.fun <- function(t) exp(sin(t) - 1)
 
 
 require(plyr)
@@ -40,7 +40,9 @@ sample.N <- 1000
 # use bulit-in function
 # sample.seq <- replicate(sample.N, gen_inhomo_poisson(lambda=rate.fun, T_0=T_0))
 # use wrapper by plyr for progress report
-sample.seq <- rlply(sample.N, gen_inhomo_poisson(lambda=rate.fun, T_0=T_0), .progress='text')
+sample.seq <- rlply(sample.N, 
+                    unique(ceiling(gen_inhomo_poisson(lambda=rate.fun, T_0=T_0))),
+                    .progress='text')
 
 
 count_until_t <- function(sample_seq, t) {
