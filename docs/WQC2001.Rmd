@@ -203,7 +203,7 @@ N[s > 6]
 prod(1 - d[s > 6] / N[s > 6])
 ```
 
-To obtain $\hat{F}(t)$ For a series of t, `sapply()` will do the trick. Also, theoritical value of $F(t)$ and $\Lambda(t)$ is computed. 
+To obtain $\hat{F}(t)$ For a series of t, `sapply()` will do the trick. Also, theoretical value of $F(t)$ and $\Lambda(t)$ is computed. 
 
 ```{r}
 F.hat <- function(t_seq) {
@@ -222,7 +222,7 @@ F.fun <- function(t) {
 Finally $F(t)$ and $\hat{F}(t)$ can be plotted:
 
 ```{r}
-curve(F.fun, 0, tau, col = 2)   # theoritical curve in red
+curve(F.fun, 0, tau, col = 2)   # theoretical curve in red
 curve(F.hat, 0, tau, add=TRUE)  # obtained from generated data
 ```
 

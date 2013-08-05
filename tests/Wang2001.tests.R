@@ -29,6 +29,8 @@ find_ex_seed <- function(i) {
 }
 # sapply(1:10, find_ex_seed)
 
+
+## Validate F.hat ##########
 library(plyr, quietly=TRUE)
 tau <- T_0  # [0, tau] = time interval of interest
 x.N <- 500  # number of patients
@@ -37,7 +39,7 @@ x.merged <- sort(unlist(x.seq))  # merge all events and sort
 
 table(round(x.merged + 0.5, digits=0))
 
-time.digit <- 0  # 0: integer, 1: with 1 decimals, ...
+time.digit <- 1  # 0: integer, 1: with 1 decimals, ...
 x.merged <- round(x.merged + 5 * 10^(-time.digit-1), digits=time.digit)
 d <- table(x.merged)
 s <- as.numeric(names(d))
@@ -52,7 +54,6 @@ F.hat <- function(t_seq) {
   sapply(t_seq, function(t) prod(1 - d[s > t] / N[s > t]))
 }
 
-
 Lambda.fun <- function(t) {
   sapply(t, function(t) integrate(lambda.fun, 0, t)$value)
 }
@@ -63,3 +64,39 @@ F.fun <- function(t) {
 
 curve(F.fun, 0, tau, col = 2)
 curve(F.hat, 0, tau, add=TRUE)
+
+## Generate Censor Time and Validate Lambda.hat ##########
+time.digit <- 0
+x.seq <- sapply(x.seq, function(obs) round(obs + 5 * 10^(-time.digit-1), digits=time.digit))
+
+# y.unobs ~ Uniform(0, 1.5 * T_0)
+# for observation i, events berfore y.unobs[[i]] will be dropped, 
+# if y > T_0 then no censor time y[[i]] == NA
+
+# real censor time that cannot be observed in real world
+y.unobs <- runif(x.N, 0.5 * T_0, 1.5 * T_0)   
+censor_x <- function(x, y) x <- x[x < y]
+x.seq.censored <- mapply(censor_x, x.seq, y.unobs)
+
+y.obs <- ifelse(y.unobs > T_0, NA, y.unobs)  # observed y
+
+x.merged <- sort(unlist(x.seq.censored))
+d <- table(x.merged)
+s <- as.numeric(names(d))
+N <- cumsum(d)
+curve(F.fun, 0, tau, col = 2)
+curve(F.hat, 0, tau, add=TRUE)
+
+y <- sapply(y.obs, function(y) min(y, tau, na.rm=TRUE))
+m <- mapply(function(obs, y) length(obs[obs < y]), x.seq.censored, y)
+
+Lambda.hat.T_0 <- sum(m / F.hat(y)) / x.N
+# compared with theoretical value
+Lambda.fun(T_0)
+
+Lambda.hat.fun <- function(t_seq) {
+  sapply(t_seq, function(t) F.hat(t) * Lambda.hat.T_0)
+}
+
+curve(Lambda.fun, 0, tau, col = 2)
+curve(Lambda.hat.fun, 0, tau, add=TRUE)
