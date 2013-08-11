@@ -1,3 +1,21 @@
+<!-- better looking
+options(rstudio.markdownToHTML = 
+  function(inputFile, outputFile) {      
+    require(markdown)
+    markdownToHTML(inputFile, outputFile, 
+  stylesheet='combined.css'
+    )
+  }
+) 
+# pandoc -f markdown -sS --mathjax --toc -c ~/.vim/shareboard/css/combined.css -o WQC2001.html WQC2001.md
+# using pandoc to output HTML
+options(rstudio.markdownToHTML = 
+  function(inputFile, outputFile) {      
+    system(paste("pandoc", shQuote(inputFile), "--mathjax", "--toc -sS", "-c", "combined.css", "-o", shQuote(outputFile)))
+  }
+)
+-->
+
 Implementation of Paper WQC 2001
 ================================
 
@@ -42,7 +60,7 @@ Example
 Part of an example using first 3 subjects in **Counting Process (CP)** format:
 
 sub. $i$ | event $j$ | event/censor(1/0) | start | end | $\mathbb{X} = x_1, \ldots$
--------- | --------- | ----------------- | ----- | --- | -------------------------- 
+:------: | :-------: | :---------------: | :---: | :-: | :------------------------: 
 1 | 1 | 1 | 0 | 2 | ... 
 1 | 2 | 1 | 2 | 5 | ... 
 1 | 3 | 0 | 5 | 8 | ... 
@@ -61,7 +79,7 @@ And all censor time are ${8, 10, 6}$
 * $q(l)$: # of censored subjects with censored time $Y_i$ such that $s(l) < Y_i \leq s(l+1)$ 
 
 $l$ | $s(l)$ | $d(l)$ | $q(l)$ | $N(l)$ | # of sub. left in exp
---- | ------ | ------ | ------ | ------ | ---------------------
+:-- | :----: | :----: | :----: | :----: | :-------------------:
 0 | 0 | 0 | 0 | 0 | 3
 1 | 2 | 1 | 0 | 1 | 3
 2 | 3 | 1 | 0 | 2 | 3  
@@ -74,12 +92,12 @@ Based on the estimator $\hat{F}(t)$ previously defined, the numerical value alon
 
 $$
 \begin{align*}
-\hat{F}(t=1) = \prod_{s(l) > t = 1}(\cdot) &= \prod_{l \in \{1, 2, \ldots, 5\}}(1-\frac{d(l)}{N(l)}) = (1 - \frac11)(1-\frac12)(1-\frac13)(1-\frac25)(1-\frac16) = 0\\
-\hat{F}(t=2) &= \prod_{l \in \{2, \ldots, 5\}}(1-\frac{d(l)}{N(l)}) = (1-\frac12)(1-\frac13)(1-\frac25)(1-\frac16)\\
-\hat{F}(t=3) &= \prod_{l \in \{3, 4, 5\}}(1-\frac{d(l)}{N(l)}) = (1-\frac13)(1-\frac25)(1-\frac16)\\
-\hat{F}(t=4) &= \prod_{l \in \{4, 5\}}(1-\frac{d(l)}{N(l)}) = (1-\frac25)(1-\frac16)\\
-\hat{F}(t=5) = \hat{F}(t=6) &= \prod_{l = 5}(1-\frac{d(l)}{N(l)}) = 1-\frac16\\
-\hat{F}(t=7) &= 1\\
+\hat{F}(t=1) = \prod_{s(l) > t = 1}(\cdot) &= \prod_{l \in \{1, 2, \ldots, 5\}}(1-\frac{d(l)}{N(l)}) = (1 - \frac11)(1-\frac12)(1-\frac13)(1-\frac25)(1-\frac16) = 0 \\\\
+\hat{F}(t=2) &= \prod_{l \in \{2, \ldots, 5\}}(1-\frac{d(l)}{N(l)}) = (1-\frac12)(1-\frac13)(1-\frac25)(1-\frac16) \\\\
+\hat{F}(t=3) &= \prod_{l \in \{3, 4, 5\}}(1-\frac{d(l)}{N(l)}) = (1-\frac13)(1-\frac25)(1-\frac16)  \\\\
+\hat{F}(t=4) &= \prod_{l \in \{4, 5\}}(1-\frac{d(l)}{N(l)}) = (1-\frac25)(1-\frac16)  \\\\
+\hat{F}(t=5) = \hat{F}(t=6) &= \prod_{l = 5}(1-\frac{d(l)}{N(l)}) = 1-\frac16  \\\\
+\hat{F}(t=7) &= 1  \\\\
 \end{align*}
 $$
 
@@ -147,8 +165,8 @@ In continuous time approach, we view evenet time as non-integer (or decimals), s
 
 $$
 \begin{align*}
-t &= 0, 1, 2, \ldots\\
-t &= 0.0, 0.1, 0.2, \ldots, 1.0, 1.1, 1.2, \ldots\\
+t &= 0, 1, 2, \ldots\\\\
+t &= 0.0, 0.1, 0.2, \ldots, 1.0, 1.1, 1.2, \ldots\\\\
 \end{align*}
 $$
 
@@ -245,8 +263,10 @@ curve(F.hat, 0, tau, add=TRUE)
 
 
 Generate censor time $y_i$:
+TODO
 
-
-Discrete Time (real world scenario)
------------------------------------
-
+TODO
+====
+* put in censor time
+* bootstrapping
+* add $z_i$

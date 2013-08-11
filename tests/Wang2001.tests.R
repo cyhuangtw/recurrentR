@@ -20,6 +20,7 @@ gen_inhomo_poisson <- function(lambda, T_0) {
 
 T_0 <- 30   # experiment end time
 lambda.fun <- function(t) exp(sin(t) - 1)
+lambda.fun <- function(t) exp(-t)
 lambda.const <- function(t) 10
 
 ## find example for multiple events occurred in [t, t+1]
@@ -66,7 +67,7 @@ curve(F.fun, 0, tau, col = 2)
 curve(F.hat, 0, tau, add=TRUE)
 
 ## Generate Censor Time and Validate Lambda.hat ##########
-time.digit <- 0
+time.digit <- 1
 x.seq <- sapply(x.seq, function(obs) round(obs + 5 * 10^(-time.digit-1), digits=time.digit))
 
 # y.unobs ~ Uniform(0, 1.5 * T_0)

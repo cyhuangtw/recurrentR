@@ -41,7 +41,7 @@ sample.N <- 1000
 # sample.seq <- replicate(sample.N, gen_inhomo_poisson(lambda=rate.fun, T_0=T_0))
 # use wrapper by plyr for progress report
 sample.seq <- rlply(sample.N, 
-                    unique(ceiling(gen_inhomo_poisson(lambda=rate.fun, T_0=T_0))),
+                    gen_inhomo_poisson(lambda=rate.fun, T_0=T_0),
                     .progress='text')
 
 
@@ -84,7 +84,7 @@ plot_qq.ggplot <- function(qt.N, i) {
              geom='point') 
   g + expand_limits(x=0, y=0) + labs(x="Therotical", y="Generated")
 }
-plot_qq.ggplot(qt.N, i) 
+plot_qq.ggplot(qt.N, i)+theme_bw()
 
 
 # TODO

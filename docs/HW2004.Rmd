@@ -1,0 +1,41 @@
+Implementation of Paper HW 2004
+===============================
+Publish on **URL**: <http://rpubs.com/ccwang002/7394>
+
+
+
+Harzard Function
+================
+**Reference**: David G. Kleinbaum and Mitchel Klein: Survival Analysis A Self-Learning Text, 3rd.
+
+Cox Harzard Fuction Form
+----------------------------
+A Cox harzard function $h(t)$ has the form:
+$$
+h(t, \mathbb{X}) = h_0(t)e^{\sum^p_i\beta_iX_i}
+$$
+
+After all information: $X_i$, $D_i$ and $Z_i$ are obtained, $h(t)$ can be computed. 
+
+
+Generate Sample given harzard function
+--------------------------------------
+
+**Reference:** 
+
+* <http://www.demogr.mpg.de/papers/technicalreports/tr-2010-003.pdf>
+* <http://epub.ub.uni-muenchen.de/1716/1/paper_338.pdf> (**using this**)
+* <http://www.ats.ucla.edu/stat/sas/library/nesug98/p118.pdf>   
+  (Comparison of two simulation methods)
+
+Question:
+
+* Why random variable $U = F(Y)$ follows a Uniform(0,1) ?
+
+
+TODO
+====
+
+* the formula for computing harzard function
+* simulation sample given harzard function
+* implement the HW2004 model
