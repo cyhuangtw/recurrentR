@@ -1,4 +1,4 @@
-source('tests/generator.R')
+library(recurrentR)
 
 T_0 <- 30   # experiment end time
 # lambda.fun <- function(t) exp(sin(t) - 1)
