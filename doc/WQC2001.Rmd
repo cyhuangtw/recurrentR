@@ -8,10 +8,11 @@ options(rstudio.markdownToHTML =
   }
 ) 
 # pandoc -f markdown -sS --mathjax --toc -c ~/.vim/shareboard/css/combined.css -o WQC2001.html WQC2001.md
-# using pandoc to output HTML
+# --- using pandoc to output HTML --- #
+# One can use either '--webtex' or '--mathjax' for preview
 options(rstudio.markdownToHTML = 
   function(inputFile, outputFile) {      
-    system(paste("pandoc", shQuote(inputFile), "--mathjax", "--toc -sS", "-c", "combined.css", "-o", shQuote(outputFile)))
+    system(paste("pandoc", shQuote(inputFile), "--webtex", "--toc -sS", "-c", "combined.css", "-o", shQuote(outputFile)))
   }
 )
 -->
