@@ -4,7 +4,7 @@
 # http://filebox.vt.edu/users/pasupath/papers/nonhompoisson_streams.pdf
 # the following code is adapted from Wush Wu
 
-source('tests/generator.R')
+library(recurrentR)
 
 # === Verify the Inhomogeneous Poisson Random Process Generator ===
 T_0 <- 20   # experiment end time

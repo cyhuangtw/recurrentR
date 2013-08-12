@@ -1,5 +1,16 @@
-# implemtent by the method based on "Acceptance Rejection"
+#'@title Generate Inhomogeneous Poisson Process
+#'
+#'@param lambda, a positive function.
+#'@param T_0, positive numeric value.
+#'@param lambda_u, numeric value. The upper bound of \code{lambda(t)} in \code{[0, T_0]}.
+#'If \code{lambda_u} is \code{NULL}, then \code{\link{optimize}} will be used to find the upper bound.
+#'
+#'@description Generate an inhomogeneous poisson process with intensity function \code{lambda(t)} 
+#'in time interval \code{[0,T_0]}.
+#'
+#'@export
 gen_inhomo_poisson <- function(lambda, T_0, lambda_u = NULL) {
+  # implemtent by the method based on "Acceptance Rejection"
   result <- c()
   ## give bound of lambda(t), `lambda_u` should satisfy the condition:
   # 0 < lambda(t) <= lambda_u
