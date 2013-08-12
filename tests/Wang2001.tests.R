@@ -1,25 +1,8 @@
-# implemtent by the method based on "Acceptance Rejection"
-gen_inhomo_poisson <- function(lambda, T_0) {
-  result <- c()
-  # give bound of lambda(t)
-  # 0 < lambda(t) <= lambda_u
-  lambda_u <- optimize(lambda, c(0, T_0), maximum = TRUE)$objective
-  t <- 0
-  while(t <= T_0) {
-    u <- runif(1)   # u1: Uniform(0,1)
-    t <- t - log(u) / lambda_u
-    if (t > T_0) break
-    u2 <- runif(1)  # u2: Uniform(0,1)
-    # the chance p to keep generated t
-    # if lambda(t) == lambda_u, p = 1 >= u2 (Uniform(0,1))
-    # t will be definitely kept
-    if (u2 <= lambda(t)/lambda_u) result <- append(result, t)
-  }
-  result
-}
+source('tests/generator.R')
 
 T_0 <- 30   # experiment end time
-lambda.fun <- function(t) exp(sin(t) - 1)
+# lambda.fun <- function(t) exp(sin(t) - 1)
+## strange case
 lambda.fun <- function(t) exp(-t)
 lambda.const <- function(t) 10
 

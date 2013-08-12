@@ -4,25 +4,7 @@
 # http://filebox.vt.edu/users/pasupath/papers/nonhompoisson_streams.pdf
 # the following code is adapted from Wush Wu
 
-# implemtent by the method based on "Acceptance Rejection"
-gen_inhomo_poisson <- function(lambda, T_0) {
-  result <- c()
-  # give bound of lambda(t)
-  # 0 < lambda(t) <= lambda_u
-  lambda_u <- optimize(lambda, c(0, T_0), maximum = TRUE)$objective
-  t <- 0
-  while(t <= T_0) {
-    u <- runif(1)   # u1: Uniform(0,1)
-    t <- t - log(u) / lambda_u
-    if (t > T_0) break
-    u2 <- runif(1)  # u2: Uniform(0,1)
-    # the chance p to keep generated t
-    # if lambda(t) == lambda_u, p = 1 >= u2 (Uniform(0,1))
-    # t will be definitely kept
-    if (u2 <= lambda(t)/lambda_u) result <- append(result, t)
-  }
-  result
-}
+source('tests/generator.R')
 
 # === Verify the Inhomogeneous Poisson Random Process Generator ===
 T_0 <- 20   # experiment end time
@@ -33,6 +15,7 @@ T_seq <- seq(T_0/T_seq.num, T_0, length.out=T_seq.num)
 
 # define the rate function
 rate.fun <- function(t) exp(sin(t) - 1)
+# rate.fun <- function(t) exp(-t)
 
 
 require(plyr)
