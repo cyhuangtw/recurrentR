@@ -1,6 +1,0 @@
-export(asymptotic.var)
-exportClasses("recurrent-data")
-exportMethods(curve)
-export(step_integrate)
-export(step_integrate.StepFunction)
-useDynLib(recurrentR)
