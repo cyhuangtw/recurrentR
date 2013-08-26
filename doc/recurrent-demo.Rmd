@@ -2,6 +2,10 @@
 
 ```{r loading-library}
 library(recurrentR)
+# All generators have been moved to a separated repo, RPPGen, which can be installed through Github
+# library(devtools)
+# install_github('RPPGen', 'wush978')
+library(RPPGen)
 ```
 
 # Experiment 1
