@@ -1,11 +1,11 @@
 s <- function(obj) {
 	#sort(unique(unlist(sapply(obj@t, unique))))
-  sort(unique(unlist(obj@t)))
-  #> microbenchmark(s_1 <- sort(unique(unlist(sapply(obj@t, unique)))), s_2 <- sort(unique(unlist(obj@t))), times=10L)
-  #Unit: microseconds
-  #                                               expr      min       lq    median       uq      max neval
-  # s_1 <- sort(unique(unlist(sapply(obj@t, unique)))) 1775.964 1862.160 2578.8065 3072.417 3122.258    10
-  #                 s_2 <- sort(unique(unlist(obj@t)))  239.962  283.216  324.6205  348.211  364.568    10
+	sort(unique(unlist(obj@t)))
+	#> microbenchmark(s_1 <- sort(unique(unlist(sapply(obj@t, unique)))), s_2 <- sort(unique(unlist(obj@t))), times=10L)
+	#Unit: microseconds
+	#                                               expr      min       lq    median       uq      max neval
+	# s_1 <- sort(unique(unlist(sapply(obj@t, unique)))) 1775.964 1862.160 2578.8065 3072.417 3122.258    10
+	#                 s_2 <- sort(unique(unlist(obj@t)))  239.962  283.216  324.6205  348.211  364.568    10
 }
 
 # d.single <- function(obj, s) {
@@ -75,7 +75,7 @@ Lambda.hat <- function(obj, bootstrap = FALSE) {
 	})
 }
 
-#'@title Solve 
+#'@title Solve
 U.hat.solve <- function(X, b, tol, verbose = FALSE, gamma = NULL) {
 # 	gamma <- solve(t(X) %*% X, t(X) %*% (b-1))
 	if (is.null(gamma)) gamma <- rep(0, ncol(X))
@@ -100,7 +100,7 @@ sapply_pb <- function(X, FUN, ...)
 	pb_Total <- length(X)
 	counter <- 0
 	pb <- txtProgressBar(min = 0, max = pb_Total, style = 3)
-	
+
 	wrapper <- function(...){
 		curVal <- get("counter", envir = env)
 		assign("counter", curVal +1 ,envir=env)
@@ -162,7 +162,7 @@ R.hat.c <- function(obj) {
 	y.i <- order(obj@y)
 	m <- sapply(obj@t, length)
 	N <- N + eval_N(s, obj@y[y.i], m[y.i])
-	new(StepFunction, s, c(0, N/length(obj@y)))	
+	new(StepFunction, s, c(0, N/length(obj@y)))
 }
 
 b.hat <- function(obj, i) {
@@ -170,7 +170,7 @@ b.hat <- function(obj, i) {
 	R.t <- R(obj@t[[i]])
 	k.single <- function(u) {
 		if (u > obj@y[i]) return(0)
-		sum(obj@t[[i]] <= u) / R(u)^2		
+		sum(obj@t[[i]] <= u) / R(u)^2
 	}
 	k <- function(u) {
 		sapply(u, k.single)
@@ -207,7 +207,7 @@ c.hat.gen <- function(obj, F.hat = NULL, bi.gen = NULL) {
 		bi <- bi.gen(i)
 		bi.y <- sapply(obj@y, function(y) bi(y))
 		mean(bi.y * m / F.hat.y) + m[i] / F.hat.y[i] - Lambda.hat.T_0
-	})	
+	})
 }
 
 d.hat.gen <- function(obj, F.hat = NULL, Lambda.hat = NULL, bi.gen = NULL, ci.gen = NULL) {
@@ -234,7 +234,7 @@ e.hat.gen <- function(obj, F.hat = NULL, bi.gen = NULL, w = NULL, gamma = NULL) 
 	return(function(i) {
 		bi <- bi.gen(i)
 		as.vector((w * m * sapply(obj@y, bi) / F.hat.y) %*% obj@X) / length(obj@y) + (w[i] * obj@X[i,] * (m[i] /  F.hat.y[i] - exp(obj@X[i,] %*% gamma)))
-	})	
+	})
 }
 
 dei.dgamma.gen <- function(obj, w = NULL, gamma = NULL) {
@@ -247,7 +247,7 @@ dei.dgamma.gen <- function(obj, w = NULL, gamma = NULL) {
 
 #'@title Asymptotic Variance Estimator
 #'
-#'@return list. 
+#'@return list.
 #'
 #'@export
 asymptotic.var <- function(obj, w = NULL, gamma = NULL) {
