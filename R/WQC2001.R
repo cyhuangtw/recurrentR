@@ -1,5 +1,11 @@
 s <- function(obj) {
-	sort(unique(unlist(sapply(obj@t, unique))))
+	#sort(unique(unlist(sapply(obj@t, unique))))
+  sort(unique(unlist(obj@t)))
+  #> microbenchmark(s_1 <- sort(unique(unlist(sapply(obj@t, unique)))), s_2 <- sort(unique(unlist(obj@t))), times=10L)
+  #Unit: microseconds
+  #                                               expr      min       lq    median       uq      max neval
+  # s_1 <- sort(unique(unlist(sapply(obj@t, unique)))) 1775.964 1862.160 2578.8065 3072.417 3122.258    10
+  #                 s_2 <- sort(unique(unlist(obj@t)))  239.962  283.216  324.6205  348.211  364.568    10
 }
 
 # d.single <- function(obj, s) {
