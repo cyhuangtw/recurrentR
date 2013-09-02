@@ -42,6 +42,13 @@ t <- sapply(seq_along(y), function(i) {
 	# return(as.numeric(ceiling(retval)))
 })
 
+# round up for some demicals, so two event could be same in simulation
+# for DEBUG only
+time.digit <- 2  # 0: integer, 1: with 1 decimals, ...
+t <- sapply(t, function(t) {
+  round(t + 5 * 10^(-time.digit-1), digits=time.digit)
+})
+
 # not use W yet, passed with an empty data frame
 obj <- new("recurrent-data", X, y, t, data.frame(), T_0)
 ```
