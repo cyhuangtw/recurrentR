@@ -99,8 +99,8 @@ for(i in 1:m) {
 	y.sim <- as.numeric(ifelse(y.sim < T_0, y.sim, T_0))
 	t.sim <- sapply(seq_along(y.sim), function(i) {
 		# 	browser()
-		z <- gen_z() * exp(as.vector(X[i,] %*% beta))
-		lambda_i <- function(t) z * lambda(t)
+		zi <- gen_zi() * exp(as.vector(X[i,] %*% beta))
+		lambda_i <- function(t) zi * lambda(t)
 		retval <- gen_inhomo_poisson(lambda_i, y.sim[i] - 1, lambda_i(0))
 		if (is.null(retval)) return(vector("numeric", 0))
 		return(retval)
