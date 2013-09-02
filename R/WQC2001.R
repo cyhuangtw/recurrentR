@@ -264,7 +264,7 @@ asymptotic.var <- function(obj, w = NULL, gamma = NULL) {
 	psi <- Reduce("+", dei.dgamma.i) / n
 	ei <- e.hat.gen(obj)
 	ei.seq <- sapply(seq_along(obj@y), ei)
-	psi.inv <- solve(psi)
+	psi.inv <- solve(psi)  ## SLOW CMD
 	gamma.var.hat <- psi.inv %*% var(t(ei.seq)) %*% psi.inv / n
 	fi.seq <- (psi.inv %*% ei.seq)[1,]
 	b <- list()
