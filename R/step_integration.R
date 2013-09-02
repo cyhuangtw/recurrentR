@@ -26,9 +26,9 @@ step_integrate <- function(g, f, a, b) {
 step_integrate.StepFunction <- function(g, f, a, b) {
 	x <- f$x
 # 	index <- which(x >= a & x <= b)
-	index <- substring_index(x, a, b)
+	index <- .Call("substring_index", x, a, b)
 	if (length(index) == 0) return(0)
 	y <- f$y
 	p <- diff(y)
-	sum(g$sort_call(x[index]) * p[index])
+	sum(.Call("StepFunction_sort_call", g, x[index], PACKAGE="recurrentR") * p[index])
 }
