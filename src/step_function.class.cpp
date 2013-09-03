@@ -5,6 +5,26 @@ using namespace Rcpp;
 
 typedef std::vector<double> NumVec;
 
+/* StepFunction implements R builtin stepfun() in C++
+ *
+ * Given x:       x[1], ..., x[n]
+ *       y: y[0], y[1], ..., y[n]
+ *
+ * It generates a step function in form:
+ *     f(x) = y0    ,        x < x1
+ *            y[i]  , x[i] ≤ x < x[i+1]
+ *            y[n]  , x[n] ≤ x
+ * function is plotted as follows.
+ *
+ *         y
+ *         │             x ...
+ *     y2  │         x---o
+ *     y1  │     x---o
+ *     y0  │ ... o
+ *         └────────────────> x
+ *               x1  x2
+ */
+
 struct StepFunction {
 	NumVec x;
 	NumVec y;
