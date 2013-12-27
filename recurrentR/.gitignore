@@ -1,5 +1,5 @@
 R/RcppExports.R
-src/RcppExports.cpp
+#src/RcppExports.cpp
 *.o
 *.so
 man
